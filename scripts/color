@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
 
-# TODO (Run this script as): color magenta && echo hello && color reset
+# TODO (Run this script as): color magenta && echo hello && color reset //
 
 color() {
     echo -ne "\033[$1;$2m"
 }
 
 declare -A color_mapping=(
-    # TODO: Add more color values
-    # Refer bash color codes
     ['magenta']=35
+    ['black']=30
+    ['red']=31
+    ['green']=32
+    ['yellow']=33
+    ['blue']=34
 )
 
 if [[ $1 == 'reset' ]]; then
@@ -17,4 +20,11 @@ if [[ $1 == 'reset' ]]; then
 else
     color 1 ${color_mapping[$1]}
 fi
+    if [[ $1 == 'reset' ]]; then
+        color 0 00
+    elif [[ -n "${color_mapping[$1]}" ]]; then
+        color 1 ${color_mapping[$1]} 
+    else
+        echo "Color not found. The available colors are: ${!color_mapping[@]}" 
+    fi
 
