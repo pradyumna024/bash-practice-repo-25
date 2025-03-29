@@ -26,3 +26,41 @@
 # └── Songs
 #     ├── Song1.mp3
 #     └── Song2.mp3
+
+#!/usr/bin/env bash
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <source_folder>"
+    exit 1
+fi
+
+src=$(realpath "$1")
+
+if [ ! -d "$src" ]; then
+    echo "Error: Source folder '$src' does not exist."
+    exit 1
+fi
+
+command -v ffmpeg >/dev/null 2>&1 || { echo "Error: ffmpeg is not installed."; exit 1; }
+
+head=$(dirname "$src")
+output="$head/Music"
+
+echo "Source folder: $src"
+echo "Output folder: $out"
+
+
+find "$src" -type f -iname "*.mp4" | while IFS= read -r input; do
+    
+    path="${input#$src/}"
+    new="${path%.mp4}.mp3"
+    final="$output/$new"
+
+    mkdir -p "$(dirname "$final")"
+    echo "Converting '$input' → '$final'..."
+
+    ffmpeg -i "$input" -q:a 2 -acodec libmp3lame -vn "$final" -y
+done
+
+echo "All mp3 files saved in '$output'."
+

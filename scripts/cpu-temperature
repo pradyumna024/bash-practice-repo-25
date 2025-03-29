@@ -6,3 +6,14 @@ grep -E 'Tctl|Tdie|Package id' /sys/class/hwmon/hwmon*/temp*_label | head -n1 | 
 #
 # Celcius: 42.0 C
 # Fahrenheit: 107.6 F
+
+
+mc=$(grep -E 'Tctl|Tdie|Package id' /sys/class/hwmon/hwmon*/temp*_label | head -n1 | cut -d':' -f1 | sed 's/label/input/' | xargs cat)`
+
+Celsius=$(bc <<< "scale=1; $mc / 1000")
+
+
+Fahrenheit=$(bc <<< "scale=1; ($Celsius * 9/5) + 32")
+
+echo "Celsius: $Celsius °C"
+echo "Fahrenheit: $Farenheit °F"
