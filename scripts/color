@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# TODO (Run this script as): color magenta && echo hello && color reset
+# TODO (Run this script as): color magenta && echo hello && color reset.
 
 color() {
     echo -ne "\033[$1;$2m"
